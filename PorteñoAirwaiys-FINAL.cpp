@@ -38,41 +38,34 @@ int FechaValida(int year, int month, int day) {
 
 //Se calcula los meses de diferencia sin tener en cuenta el día
 int Calc_MesesDiferencia(struct tm fechaHoy, char nombreDestino[50]){
-	int MesesDif;
-	
-	struct tm Fecha_Destino = {0};
-	int year_dest, month_dest;
-	int year_diff, month_diff;
-	
-	if(nombreDestino=="Francia"){
-		year_dest = 2024;
-		month_dest = 11;
-		
-	}else if(nombreDestino=="Espania"){
-		year_dest = 2024;
-		month_dest = 11;
-		
-	}else if(nombreDestino=="EEUU"){
-		year_dest = 2024;
-		month_dest = 12;
-		
-	}else if(nombreDestino=="China"){
-		year_dest = 2025;
-		month_dest = 1;
-	
-	}else{
-		year_dest = 2025;
-		month_dest = 1;
-	}
-	
-	Fecha_Destino.tm_year = year_dest;
-	Fecha_Destino.tm_mon = month_dest;
-	
-	year_diff = Fecha_Destino.tm_year - (fechaHoy.tm_year + 1900);
-	month_diff = Fecha_Destino.tm_mon - (fechaHoy.tm_mon + 1);
-	
-	MesesDif = year_diff * 12 + month_diff;
-    
+    struct tm Fecha_Destino = {0};
+    int year_dest, month_dest;
+
+    if(strcmp(nombreDestino, "Francia") == 0){
+        year_dest = 2024;
+        month_dest = 11;
+    } else if(strcmp(nombreDestino, "Espania") == 0){
+        year_dest = 2024;
+        month_dest = 11;
+    } else if(strcmp(nombreDestino, "Estados Unidos") == 0){
+        year_dest = 2024;
+        month_dest = 12;
+    } else if(strcmp(nombreDestino, "China") == 0){
+        year_dest = 2025;
+        month_dest = 1;
+    } else {
+        year_dest = 2025;
+        month_dest = 1;
+    }
+
+    Fecha_Destino.tm_year = year_dest - 1900;
+    Fecha_Destino.tm_mon = month_dest - 1;
+
+    int year_diff = Fecha_Destino.tm_year - fechaHoy.tm_year;
+    int month_diff = Fecha_Destino.tm_mon - fechaHoy.tm_mon;
+
+    int MesesDif = year_diff * 12 + month_diff;
+
     return MesesDif;
 }
 
@@ -90,7 +83,7 @@ float Anticipacion_Vuelo(int MesesDiferencia, float BoletoBase) {
 int main(){
 	
 	//--Variables de entrada
-	char nombreDestino[50] = "EEUU";
+	char nombreDestino[50] = "Francia";
 	
     struct tm fechaHoy = {0};
     int year, month, day;
@@ -114,7 +107,7 @@ int main(){
 	
 	//--Pregunta
 	do{
-		printf("¿Desea iniciar sesión? SI/NO: ");
+		printf("¿Desea iniciar sesion? SI/NO: ");
 		scanf("%s", &RTA);
 		//Limpiar buffer
 	}while(strcmp(RTA, "SI")!=0&&strcmp(RTA,"NO")!=0);
@@ -153,8 +146,8 @@ int main(){
 		Valor_AntVuelo = Anticipacion_Vuelo(MesesDiferencia, BoletoBase);
 		
 		//--Se informan resultados
-			printf("%d", MesesDiferencia);
-			printf("%.2f", Valor_AntVuelo);
+			printf("\n %d", MesesDiferencia);
+			printf("\n %.2f", Valor_AntVuelo);
 	}
 	
 	//--Se muestran resultados finales
